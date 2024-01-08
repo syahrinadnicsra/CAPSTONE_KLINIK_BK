@@ -1,3 +1,7 @@
+<?php
+session_start();
+require_once "../../conf/conn.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
