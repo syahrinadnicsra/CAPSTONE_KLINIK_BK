@@ -1,0 +1,37 @@
+<?php
+include __DIR__ . "/../../conf/conn.php";
+if ($_POST) {
+    $id = $_POST['id'];
+    $id_dokter = $_POST['id_dokter'];
+    $hari = $_POST['hari'];
+    $mulai = $_POST['mulai'];
+    $selesai = $_POST['selesai'];
+    $status = $_POST['status'][''];
+
+    // Cek apakah data dengan id tersebut sudah ada di database
+    $check_query = "SELECT * FROM jadwal_periksa WHERE id = '$id'";
+    $result = mysqli_query($conn, $check_query);
+
+    // Tangkap data gambar upload bukti izin
+    $bukti = $_FILES['bukti']['name'];
+    
+    if (mysqli_num_rows($result) > 0) {
+        // Jika data sudah ada, update data
+        $update_query = "UPDATE jadwal_periksa SET 
+                         id_dokter = '$id_dokter', 
+                         hari = '$hari', 
+                         mulai = '$mulai', 
+                         selesai = '$selesai', 
+                         status = '$status',  
+                         WHERE id = '$id'";
+
+        if (mysqli_query($conn, $update_query)) {
+            echo '<script>alert("Data Berhasil Diupdate !!!"); window.location.href="../Siswa/indexSiswa.php"</script>';
+        } else {
+            die(mysqli_error($conn));
+        }
+    } else {
+        // Jika data belum ada, tampilkan pesan kesalahan
+        echo '<script>alert("Data dengan ID tersebut tidak ditemukan."); window.location.href="../Siswa/indexSiswa.php"</script>';
+    }
+}
